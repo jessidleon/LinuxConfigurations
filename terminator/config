@@ -1,15 +1,22 @@
 [global_config]
 [keybindings]
+  go_next = <Alt>n
+  go_up = <Alt>k
+  go_down = <Alt>j
+  go_left = <Alt>h
+  go_right = <Alt>l
+  toggle_scrollbar = <Primary><Shift>s
+  layout_launcher = ""
 [profiles]
   [[default]]
-    background_darkness = 0.75
+    background_darkness = 0.8
     background_type = image
     cursor_color = "#aaaaaa"
     font = JetBrainsMonoNL Nerd Font Mono Ultra-Bold 15
     foreground_color = "#ffffff"
     scrollback_infinite = True
     use_system_font = False
-    background_image = /home/user/.config/terminator/wallpaper.jpg
+    background_image = /home/jessid/.config/terminator/wallpaper.jpg
 [layouts]
   [[default]]
     [[[window0]]]
