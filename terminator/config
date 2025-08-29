@@ -1,0 +1,21 @@
+[global_config]
+[keybindings]
+[profiles]
+  [[default]]
+    background_darkness = 0.75
+    background_type = image
+    cursor_color = "#aaaaaa"
+    font = JetBrainsMonoNL Nerd Font Mono Ultra-Bold 15
+    foreground_color = "#ffffff"
+    scrollback_infinite = True
+    use_system_font = False
+    background_image = /home/user/.config/terminator/wallpaper.jpg
+[layouts]
+  [[default]]
+    [[[window0]]]
+      type = Window
+      parent = ""
+    [[[child1]]]
+      type = Terminal
+      parent = window0
+[plugins]
