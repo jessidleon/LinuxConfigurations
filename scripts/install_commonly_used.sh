@@ -9,3 +9,4 @@ sudo apt install -y git
 sudo apt install -y openssh-server
 sudo apt install -y curl
 sudo apt install -y cmake-curses-gui
+sudo apt install -y xclip
