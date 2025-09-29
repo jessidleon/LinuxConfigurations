@@ -1,29 +1,27 @@
--- Carga defaults de NvChad (capabilities, on_attach, etc.)
 require("nvchad.configs.lspconfig").defaults()
 
-local lspconfig = require("lspconfig")
 local nvlsp = require("nvchad.configs.lspconfig")
 
--- Servidores “genéricos” con config por defecto
-local servers = { "clangd", "cmake" }  -- <-- quita "markdown" aquí
-for _, lsp in ipairs(servers) do
-  lspconfig[lsp].setup {
+local function cfg(name, opts)
+  vim.lsp.config(name, vim.tbl_deep_extend("force", {
     on_attach = nvlsp.on_attach,
     on_init = nvlsp.on_init,
     capabilities = nvlsp.capabilities,
-  }
+  }, opts or {}))
 end
--- 🔧 markdown-oxide
-lspconfig.markdown_oxide.setup {
-  on_attach = nvlsp.on_attach,
-  on_init = nvlsp.on_init,
-  capabilities = nvlsp.capabilities,
+
+cfg("clangd")
+cfg("cmake")
+
+-- 🔧 markdown-oxide 
+cfg("markdown_oxide", {
   filetypes = { "markdown", "markdown.mdx" },
+  single_file_support = true,
   root_dir = function(fname)
-    local util = require("lspconfig.util")
+    local util = require("lspconfig.util") -- solo utilidad, no usa el “framework” viejo
     local real = vim.loop.fs_realpath(fname) or fname
     return util.root_pattern(".git")(real) or util.path.dirname(real)
   end,
-  single_file_support = true,
-  -- cmd = { vim.fn.stdpath("data") .. "/mason/bin/markdown-oxide" }, -- solo si el PATH no lo encuentra
-}
+})
+
+vim.lsp.enable({ "clangd", "cmake", "markdown_oxide" })
