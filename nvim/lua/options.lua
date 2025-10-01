@@ -11,6 +11,6 @@ vim.o.foldenable = true
 vim.api.nvim_set_hl(0, "IlluminatedWordText", { bg = "#2929df" })
 vim.api.nvim_set_hl(0, "IlluminatedWordRead", { bg = "#2929df" })
 vim.api.nvim_set_hl(0, "IlluminatedWordWrite", { bg = "#2929df" })
-vim.api.nvim_set_hl(0, "CursorLine", { bg = "#392a2a", underline = true })
-vim.api.nvim_set_hl(0, "TelescopeSelection", { bg = "#cccccc", fg = "#ffffff", bold = true })
+vim.api.nvim_set_hl(0, "CursorLine", { bg = "#2D4501", underline = true })
+vim.api.nvim_set_hl(0, "TelescopeSelection", { bg = "#cccccc", fg = "#60662F", bold = true })
 vim.api.nvim_set_hl(0, "NvimTreeCursorLine", { bg = "#4a4a4a" })
