@@ -5,11 +5,11 @@
 local M = {}
 
 M.base46 = {
-  theme = "chadracula",
+  theme = "github_dark",
 
   hl_override = {
     Comment = { italic = true },
-    ["@comment"] = { fg = "#FFFFFF", italic = true },
+    ["@comment"] = { fg = "#FFD700", italic = true },
     LineNr = { fg = "#999999" },
     CursorLineNr = { fg = "#FFD700", bold = true },
     Visual = { fg = "#0F00F3", bg = "#E3FEE1", bold = true, italic = true },

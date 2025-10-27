@@ -5,19 +5,18 @@ return {
     dependencies = {
       "rcarriga/nvim-dap-ui",
       "nvim-neotest/nvim-nio",
-      "williamboman/mason.nvim", 
+      "williamboman/mason.nvim"
     },
     config = function()
       local dap = require "dap"
       local dapui = require "dapui"
 
       local function find_codelldb()
-        -- Ruta típica de Mason en Linux:
         local mason_adapter = vim.fn.stdpath "data" .. "/mason/packages/codelldb/extension/adapter/codelldb"
         if vim.loop.fs_stat(mason_adapter) then
           return mason_adapter
         end
-        -- Si no está en Mason, intenta en PATH
+
         local in_path = vim.fn.exepath "codelldb"
         if in_path ~= "" then
           return in_path
@@ -51,6 +50,9 @@ return {
           program = function()
             return vim.fn.input("Ruta al ejecutable: ", vim.fn.getcwd() .. "/build/", "file")
           end,
+
+
+-- program = "${workspaceFolder}/build/ur_test_joints/max_speed", 
           cwd = "${workspaceFolder}",
           stopOnEntry = false,
           args = {},
@@ -94,6 +96,30 @@ return {
           end,
         },
 
+{
+  name = "Attach to PID (codelldb)",
+  type = "codelldb",
+  request = "attach",
+  pid = function()
+    return tonumber(vim.fn.input("PID: "))
+  end,
+  cwd = "${workspaceFolder}",
+  -- Evita perderte en libc/stdlib al hacer step:
+  initCommands = { "settings set target.process.thread.step-avoid-libraries true" },
+},
+
+{
+  name = "Attach to PID (container)",
+  type = "codelldb_direct",
+  request = "attach",
+  pid = function() return tonumber(vim.fn.input("PID: ")) end,
+  cwd = "${workspaceFolder}",
+  initCommands = {
+    "settings set target.process.thread.step-avoid-libraries true",
+    "settings set target.process.follow-fork-mode child", -- por si tu proceso hace fork/exec
+  },
+}, 
+
         {
           name = "Attach to process",
           type = "codelldb",
@@ -127,12 +153,33 @@ return {
       map("n", "<F8>", dap.step_out, { desc = "DAP Step Out" })
       map("n", "<leader>tb", dap.toggle_breakpoint, { desc = "DAP Toggle Breakpoint" })
 
-      map("n", "K", function()
+      map("n", "E", function()
         dapui.eval()
       end, { desc = "DAP eval" })
+
+-- Desactiva/activa breakpoints por excepción
+vim.keymap.set("n", "<leader>de", function()
+  require("dap").set_exception_breakpoints({})  -- OFF: no parar en throw/catch
+  vim.notify("DAP: exception breakpoints OFF")
+end)
+
+vim.keymap.set("n", "<leader>dE", function()
+  require("dap").set_exception_breakpoints({ "cpp_throw", "cpp_catch" }) -- ON si lo necesitas
+  vim.notify("DAP: exception breakpoints ON (throw + catch)")
+end)
+
+-- Al iniciar una sesión, desactiva excepciones por defecto:
+local dap = require("dap")
+dap.listeners.after.event_initialized["no-exc"] = function()
+  require("dap").set_exception_breakpoints({})
+end
+
+
+
 
       vim.fn.sign_define("DapBreakpoint", { text = "●", texthl = "DiagnosticError" })
       vim.fn.sign_define("DapStopped", { text = "▶", texthl = "DiagnosticInfo" })
     end,
   },
 }
+

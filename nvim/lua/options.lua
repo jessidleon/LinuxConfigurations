@@ -14,3 +14,5 @@ vim.api.nvim_set_hl(0, "IlluminatedWordWrite", { bg = "#2929df" })
 vim.api.nvim_set_hl(0, "CursorLine", { bg = "#2D4501", underline = true })
 vim.api.nvim_set_hl(0, "TelescopeSelection", { bg = "#cccccc", fg = "#60662F", bold = true })
 vim.api.nvim_set_hl(0, "NvimTreeCursorLine", { bg = "#4a4a4a" })
+-- 757A67
+-- 60662F
