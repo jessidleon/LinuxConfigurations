@@ -56,7 +56,7 @@ vim.keymap.set("n", "<F12>", dap.step_out)
 vim.keymap.set("n", "<leader>b", dap.toggle_breakpoint)
 
 --clangd-extension
-vim.keymap.set("n", "<leader>ch", "<cmd>ClangdSwitchSourceHeader<CR>", { desc = "Switch header/source" })
+vim.keymap.set("n", "<leader>cH", "<cmd>ClangdSwitchSourceHeader<CR>", { desc = "Switch header/source" })
 vim.keymap.set("n", "<leader>cA", "<cmd>ClangdAST<CR>", { desc = "Clangd AST" })
 vim.keymap.set("n", "<leader>ct", "<cmd>ClangdTypeHierarchy<CR>", { desc = "Type hierarchy" })
 
