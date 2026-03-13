@@ -1,19 +1,36 @@
 require "nvchad.options"
+
 local opt = vim.opt
+local api = vim.api
+
 opt.number = true
 opt.relativenumber = true
 opt.cursorline = true
 opt.cursorlineopt = "both"
 
-local api = vim.api
-api.nvim_set_hl(0, "IblScope", { fg = "#7aa2f7" })
-local function strong_cursorline()
-  api.nvim_set_hl(0, "CursorLine", { bg = "#444C5E" })
-  api.nvim_set_hl(0, "CursorLineNr", { fg = "#FFD700", bold = true })
+opt.foldmethod = "expr"
+opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+opt.foldlevel = 99
+
+local function dynamic_highlights()
+  local bg = vim.o.background
+
+  api.nvim_set_hl(0, "IblScope", { fg = "#7aa2f7" })
+
+  if bg == "light" then
+    api.nvim_set_hl(0, "CursorLine", { bg = "#E8E8E8" })
+    api.nvim_set_hl(0, "CursorLineNr", { fg = "#AF8700", bold = true })
+    api.nvim_set_hl(0, "Visual", { bg = "#CFCFCF" })
+  else
+    api.nvim_set_hl(0, "CursorLine", { bg = "#444C5E" })
+    api.nvim_set_hl(0, "CursorLineNr", { fg = "#FFD700", bold = true })
+    api.nvim_set_hl(0, "Visual", { bg = "#6c7086" })
+
+  end
 end
-strong_cursorline()
-api.nvim_create_autocmd("ColorScheme", { callback = strong_cursorline })
-vim.api.nvim_set_hl(0, "Visual", { bg = "#6c7086" })
-vim.opt.foldmethod = "expr"
-vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
-vim.opt.foldlevel = 99
+
+dynamic_highlights()
+
+api.nvim_create_autocmd("ColorScheme", {
+  callback = dynamic_highlights,
+})

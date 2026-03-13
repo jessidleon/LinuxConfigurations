@@ -63,31 +63,6 @@ vim.keymap.set("n", "<leader>ct", "<cmd>ClangdTypeHierarchy<CR>", { desc = "Type
 -- clangd: mostrar info/tipo del símbolo bajo el cursor
 map("n", "gh", "<cmd>ClangdSymbolInfo<CR>", { desc = "Clangd symbol info" })
 
--- peek definition / declaration / implementation / references
-map("n", "gpd", function()
-  require("goto-preview").goto_preview_definition()
-end, { desc = "Peek definition" })
-
-map("n", "gpD", function()
-  require("goto-preview").goto_preview_declaration()
-end, { desc = "Peek declaration" })
-
-map("n", "gpi", function()
-  require("goto-preview").goto_preview_implementation()
-end, { desc = "Peek implementation" })
-
-map("n", "gpr", function()
-  require("goto-preview").goto_preview_references()
-end, { desc = "Peek references" })
-
-map("n", "gpt", function()
-  require("goto-preview").goto_preview_type_definition()
-end, { desc = "Peek type definition" })
-
-map("n", "<leader>pc", function()
-  require("goto-preview").close_all_win()
-end, { desc = "Close preview windows" })
-
 -- diagnostics
 map("n", "gl", function()
   vim.diagnostic.open_float(nil, { scope = "line", border = "rounded" })
