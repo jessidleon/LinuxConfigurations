@@ -9,12 +9,29 @@ return {
     config = function()
       local dap = require "dap"
       local dapui = require "dapui"
+
+      local function get_program()
+        return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
+      end
+
+      local function get_args()
+        local input = vim.fn.input "Args: "
+
+        if input == nil or vim.trim(input) == "" then
+          return {}
+        end
+
+        return vim.split(vim.trim(input), "%s+", {
+          trimempty = true,
+        })
+      end
+
       dapui.setup {
         layouts = {
           {
             elements = {
               { id = "scopes", size = 0.40 },
-              { id = "breakpoints", size = 0.20 },
+              -- { id = "breakpoints", size = 0.20 },
               { id = "stacks", size = 0.20 },
               { id = "watches", size = 0.20 },
             },
@@ -31,18 +48,23 @@ return {
           },
         },
       }
+
       require("nvim-dap-virtual-text").setup {
         commented = true,
       }
+
       dap.listeners.after.event_initialized["dapui_config"] = function()
         dapui.open()
       end
+
       dap.listeners.before.event_terminated["dapui_config"] = function()
         dapui.close()
       end
+
       dap.listeners.before.event_exited["dapui_config"] = function()
         dapui.close()
       end
+
       dap.adapters.codelldb = {
         type = "server",
         port = "${port}",
@@ -51,20 +73,21 @@ return {
           args = { "--port", "${port}" },
         },
       }
+
       dap.configurations.cpp = {
         {
-          name = "Launch file",
+          name = "Launch",
           type = "codelldb",
           request = "launch",
-          program = function()
-            return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
-          end,
+          program = get_program,
           cwd = "${workspaceFolder}",
           stopOnEntry = false,
-          args = {},
+          args = get_args,
           runInTerminal = false,
         },
       }
+
+      dap.configurations.c = dap.configurations.cpp
     end,
   },
 }
