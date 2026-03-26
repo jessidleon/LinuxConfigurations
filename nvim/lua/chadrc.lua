@@ -6,10 +6,10 @@
 local M = {}
 
 M.base46 = {
-  theme = "github_light",
+  theme = "oceanic-next",
   hl_override = {
     Comment = { italic = true },
-    ["@comment"] = { italic = true , fg = "#8BD5CA"},
+    ["@comment"] = { italic = true , fg = "#808000"},
   },
 }
 

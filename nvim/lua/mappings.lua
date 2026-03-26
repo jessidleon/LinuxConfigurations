@@ -137,20 +137,20 @@ map("n", "]d", vim.diagnostic.goto_next, { desc = "Next diagnostic" })
 
 
 -- svn
--- local opts = { noremap = true, silent = true }
--- local ropts = { silent = true, remap = true }
+local opts = { noremap = true, silent = true }
+local ropts = { silent = true, remap = true }
 
--- local function vc_input(prompt, cmd)
---   vim.ui.input({ prompt = prompt }, function(value)
---     if value and value ~= "" then
---       vim.cmd(cmd .. " " .. value)
---     end
---   end)
--- end
+local function vc_input(prompt, cmd)
+  vim.ui.input({ prompt = prompt }, function(value)
+    if value and value ~= "" then
+      vim.cmd(cmd .. " " .. value)
+    end
+  end)
+end
 
 -- map("n", "<leader>vs", "<cmd>VCStatus<cr>", vim.tbl_extend("force", opts, { desc = "SVN status" }))
 -- map("n", "<leader>vl", "<cmd>VCLog<cr>", vim.tbl_extend("force", opts, { desc = "SVN log archivo" }))
--- map("n", "<leader>vd", "<cmd>VCDiff<cr>", vim.tbl_extend("force", opts, { desc = "SVN diff actual" }))
+map("n", "<leader>vd", "<cmd>VCDiff<cr>", vim.tbl_extend("force", opts, { desc = "SVN diff actual" }))
 -- map("n", "<leader>vD", function()
 --   vc_input("Revision SVN: ", "VCDiff")
 -- end, vim.tbl_extend("force", opts, { desc = "SVN diff revision" }))
