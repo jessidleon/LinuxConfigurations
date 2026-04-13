@@ -166,3 +166,27 @@ map("n", "<leader>vd", "<cmd>VCDiff<cr>", vim.tbl_extend("force", opts, { desc =
 -- map("n", "<leader>vH", "<cmd>SignifyDiff<cr>", vim.tbl_extend("force", opts, { desc = "Diff buffer completo" }))
 -- map("n", "<leader>vt", "<cmd>SignifyToggle<cr>", vim.tbl_extend("force", opts, { desc = "Toggle signify" }))
 -- map("n", "<leader>vF", "<cmd>SignifyRefresh<cr>", vim.tbl_extend("force", opts, { desc = "Refresh signify" }))
+
+-- svn
+vim.keymap.set("n", "<leader>sv", function()
+  local file = vim.fn.expand "%:p"
+  local tmp = vim.fn.tempname()
+  local lines = vim.fn.systemlist { "svn", "cat", "-r", "BASE", file }
+  if vim.v.shell_error ~= 0 then
+    vim.notify("Error ejecutando svn cat", vim.log.levels.ERROR)
+    return
+  end
+  vim.fn.writefile(lines, tmp)
+  -- abrir diff vertical
+  vim.cmd("vert diffsplit " .. vim.fn.fnameescape(tmp))
+  -- configurar buffer temporal (lado izquierdo)
+  vim.bo.buftype = "nofile"
+  vim.bo.bufhidden = "wipe"
+  vim.bo.swapfile = false
+  vim.bo.readonly = true
+  vim.bo.modifiable = false
+  -- opcional: nombre más bonito
+  vim.api.nvim_buf_set_name(0, "SVN:BASE")
+end, { desc = "Diff vs SVN BASE" })
+
+--
